@@ -1,51 +1,72 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class CursorGame : MonoBehaviour
 {
-    public GameObject mainArea, cursorArea, cursor;
+    public GameObject mainArea, cursorArea, cursor, blurr;
     public HealthBar healthBar;
+    public Text currentTurn, myTurn;
 
     public float radiusMainArea = 130.0f, radiusCursorArea = 85.0f;
 
     public int maxHealth, currentHealth;
     public int damage;
-    public float cd_dmgTime = 0.1f, cd_changeDir = 1.2f;
+    public float cd_dmgTime = 0.1f, cd_dirTime = 1.2f, cd_turnMinTime = 2.0f, cd_turnMaxTime = 8.0f;
     public float clickMultiplier, penaltyMultiplier;
 
-    float dmg_time, dir_time;
+    float dmg_time, dir_time, turnTime;
+    float cd_turnTime;
     float factorScaleArea = 1.0f;
 
-    Vector3 cursorAreIniScale;
+    int turnTries = -1, turnTriesMax;
+
+    Vector3 cursorAreaIniScale;
     Vector3 randomMove;
 
+    bool endGame = false;
 
     // Start is called before the first frame update
     void Start()
     {
         dmg_time = cd_dmgTime;
-        dir_time = 0.0f;
-        healthBar.SetMaxHealth(maxHealth);
-        cursorAreIniScale = cursorArea.transform.localScale;
+        dir_time = cd_dirTime;
+        cd_turnTime = (float)Random.Range(cd_turnMinTime, cd_turnMaxTime);
+        turnTime = cd_turnTime;
 
-        randomMove = new Vector3((float)(Random.Range(-10, 20) / 100.0f), (float)(Random.Range(-10, 20) / 100.0f), 0);
+        healthBar.SetMaxHealth(maxHealth);
+        cursorAreaIniScale = cursorArea.transform.localScale;
+
+        myTurn.text = createNewNumber(9);
+
+        turnTriesMax = Random.RandomRange(2, 5);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (healthBar.getHealth() <= 0)
+        if (!endGame)
         {
-            //terminar juego
-        }
-        else
-        {
-            checkCursorArea();
-            checkMoveArea();
+            if (healthBar.getHealth() <= 0 || isSameTurn())
+            {
+                //terminar juego
+                if (!isSameTurn())
+                    Debug.Log("No tan Fino");
+                else
+                    Debug.Log("Fino");
+                endGame = true;
+            }
+            else
+            {
+                checkCursorArea();
+                checkMoveArea();
+                updateTurn();
 
-            moveArea();
-            scaleArea();
+                moveArea();
+                scaleArea();
+            }
         }
     }
 
@@ -73,7 +94,7 @@ public class CursorGame : MonoBehaviour
 
     void checkMoveArea()
     {
-        if (dir_time >= cd_changeDir)
+        if (dir_time >= cd_dirTime)
         {
             dir_time = 0.0f;
             randomMove = new Vector3((float)(Random.Range(-10, 20) / 100.0f), (float)(Random.Range(-10, 20) / 100.0f), 0);
@@ -82,6 +103,30 @@ public class CursorGame : MonoBehaviour
         }
         else
             dir_time += Time.deltaTime;
+    }
+
+    void updateTurn()
+    {
+        if (turnTries >= turnTriesMax)
+            currentTurn.text = myTurn.text;
+        else
+        {
+            if (turnTime >= cd_turnTime)
+            {
+                turnTime = 0.0f;
+                currentTurn.text = createNewNumber(9);
+                turnTries++;
+
+                cd_turnTime = (float)Random.Range(cd_turnMinTime, cd_turnMaxTime);
+            }
+            else
+                turnTime += Time.deltaTime;
+        }
+    }
+
+    bool isSameTurn()
+    {
+        return(currentTurn.text == myTurn.text && !blurr.activeSelf) ;
     }
 
     void moveArea()
@@ -113,7 +158,7 @@ public class CursorGame : MonoBehaviour
             if (factorScaleArea < 0.3f)
                 factorScaleArea = 0.3f;
         }
-        Vector3 newScale = cursorAreIniScale * factorScaleArea;
+        Vector3 newScale = cursorAreaIniScale * factorScaleArea;
         cursorArea.transform.localScale = newScale;
     }
 
@@ -122,5 +167,17 @@ public class CursorGame : MonoBehaviour
         currentHealth -= dmg;
         if(currentHealth <= 0) currentHealth = 0;
         healthBar.setHealth(currentHealth);
+    }
+
+    string createNewNumber(int digits)
+    {
+        string number = "";
+        
+        for(int i = 0; i <= digits; i++)
+        {
+            string c = Random.Range(0, 10).ToString();
+            number += c;
+        }
+        return number;
     }
 }
