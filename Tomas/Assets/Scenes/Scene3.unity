@@ -218,9 +218,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 8
+  m_MaxValue: 10
   m_WholeNumbers: 1
-  m_Value: 8
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 238282936}
   - component: {fileID: 238282934}
   m_Layer: 5
-  m_Name: Pointer
+  m_Name: Cursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -274,14 +274,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8486845d0ba76bd4d8814689e9a1b95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game: {fileID: 1863087362}
-  MainArea: {fileID: 1463668774}
-  CursorArea: {fileID: 844831037}
-  radiusMainArea: 130
-  radiusCursorArea: 40
+  cursorGame: {fileID: 1863087362}
   speed: 2
-  damage: 1
-  cd_dmgTime: 2
 --- !u!114 &238282936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,7 +325,7 @@ GameObject:
   - component: {fileID: 844831041}
   - component: {fileID: 844831040}
   m_Layer: 5
-  m_Name: PointerArea
+  m_Name: CursorArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -889,9 +883,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657c2e383b519fe4f936d66b7b10956a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainArea: {fileID: 1463668774}
+  cursorArea: {fileID: 844831037}
+  cursor: {fileID: 238282932}
   healthBar: {fileID: 228185267}
-  maxHealth: 10
-  currentHealth: 10
+  radiusMainArea: 130
+  radiusCursorArea: 85
+  maxHealth: 100
+  currentHealth: 100
+  damage: 1
+  cd_dmgTime: 0.1
+  cd_changeDir: 3.2
+  clickMultiplier: 3
+  penaltyMultiplier: 0.5
 --- !u!1 &1886267819
 GameObject:
   m_ObjectHideFlags: 0
