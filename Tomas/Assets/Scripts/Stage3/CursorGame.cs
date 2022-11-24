@@ -42,7 +42,7 @@ public class CursorGame : MonoBehaviour
 
         myTurn.text = createNewNumber(9);
 
-        turnTriesMax = Random.RandomRange(2, 5);
+        turnTriesMax = Random.Range(2, 5);
     }
 
     // Update is called once per frame
