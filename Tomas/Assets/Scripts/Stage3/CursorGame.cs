@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class CursorGame : MonoBehaviour
@@ -67,6 +68,10 @@ public class CursorGame : MonoBehaviour
                 moveArea();
                 scaleArea();
             }
+        }
+        else
+        {
+            SceneManager.LoadScene(0);
         }
     }
 
