@@ -13,7 +13,7 @@ public class Connection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.GetComponent<PlayerController>() != null)
+        if(other.GetComponent<PlayerController2D>() != null)
         {
             other.transform.position = connection;
         }
