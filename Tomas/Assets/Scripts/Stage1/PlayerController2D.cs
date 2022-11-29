@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class PlayerController2D : MonoBehaviour
@@ -11,7 +10,7 @@ public class PlayerController2D : MonoBehaviour
     public float gravityScale = 1.5f;
     public Camera mainCamera;
     public float offsetCamerY = 10.0f;
-    public AnimatorController TimmyAnimatorStreet; 
+    public Animator TimmyAnimatorStreet; 
 
     bool flip = true;
     float moveDirection = 0;
@@ -48,7 +47,7 @@ public class PlayerController2D : MonoBehaviour
     {
         //Cambio de animaciones
         if (isStreet && animatorChange){
-            animator.runtimeAnimatorController = TimmyAnimatorStreet as RuntimeAnimatorController;
+            animator.runtimeAnimatorController = TimmyAnimatorStreet.runtimeAnimatorController;
             animatorChange = false;
         }
 
@@ -125,5 +124,10 @@ public class PlayerController2D : MonoBehaviour
 
         // Apply movement velocity
         r2d.velocity = new Vector2((moveDirection) * maxSpeed, r2d.velocity.y);
+    }
+
+    public void changeStreet()
+    {
+        isStreet = true;
     }
 }

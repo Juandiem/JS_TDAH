@@ -14,6 +14,7 @@ public class ShowItem : MonoBehaviour
     {
         if (collision.GetComponent<PlayerController2D>() != null)
         {
+            collision.GetComponent<PlayerController2D>().changeStreet();
             gameManager.EnableMainDoor();
             Destroy(gameObject);
         }

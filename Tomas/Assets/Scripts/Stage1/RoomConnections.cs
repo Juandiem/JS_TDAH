@@ -36,7 +36,7 @@ public class RoomConnections : MonoBehaviour
             if (tpPlayer)
             {
                 collision.gameObject.transform.position = new Vector3(pos.x, pos.y, collision.gameObject.transform.position.z);
-                Destroy(transform.parent.gameObject);
+                Destroy(transform.parent.gameObject.transform.parent.gameObject);
             }
 
         }
