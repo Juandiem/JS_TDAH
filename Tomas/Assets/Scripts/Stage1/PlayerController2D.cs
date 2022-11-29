@@ -10,6 +10,7 @@ public class PlayerController2D : MonoBehaviour
     public float jumpHeight = 6.5f;
     public float gravityScale = 1.5f;
     public Camera mainCamera;
+    public float offsetCamerY = 10.0f;
     public AnimatorController TimmyAnimatorStreet; 
 
     bool flip = true;
@@ -56,6 +57,8 @@ public class PlayerController2D : MonoBehaviour
         {
             moveDirection = Input.GetKey(KeyCode.A) ? -1 : 1;
         }
+        else
+            moveDirection = 0;
 
         // Change facing direction
         if (moveDirection != 0)
@@ -69,7 +72,7 @@ public class PlayerController2D : MonoBehaviour
         }
 
         // Jumping
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
         }
@@ -77,7 +80,7 @@ public class PlayerController2D : MonoBehaviour
         // Camera follow
         if (mainCamera)
         {
-            mainCamera.transform.position = new Vector3(t.position.x, t.position.y, cameraPos.z);
+            mainCamera.transform.position = new Vector3(t.position.x, t.position.y+offsetCamerY, cameraPos.z);
         }
 
         //Gestion de animaciones
@@ -91,7 +94,7 @@ public class PlayerController2D : MonoBehaviour
         else
             animator.SetBool("Falling", true);
 
-        if (isGrounded)
+        if (Mathf.Abs(r2d.velocity.y) < 0.1f && Mathf.Abs(r2d.velocity.y) > -0.1f)
             animator.SetBool("OnAir", false);
         else
             animator.SetBool("OnAir", true);
@@ -112,7 +115,7 @@ public class PlayerController2D : MonoBehaviour
         {
             for (int i = 0; i < colliders.Length; i++)
             {
-                if (colliders[i] != mainCollider)
+                if (colliders[i] != mainCollider && !colliders[i].isTrigger)
                 {
                     isGrounded = true;
                     break;

@@ -4,11 +4,47 @@ using UnityEngine;
 
 public class RoomConnections : MonoBehaviour
 {
-    public GameObject triggerL, triggerR;
+    Vector3 pos;
 
-    public void setSpawnPoints(Vector3 posL, Vector3 posR)
+    bool tpPlayer = false;
+
+    SpriteRenderer sprite;
+
+    private void Start()
     {
-        triggerL.GetComponent<Connection>().setConnection(posL);
-        triggerR.GetComponent<Connection>().setConnection(posR);
+        sprite = GetComponent<SpriteRenderer>();
+        sprite.enabled = false;
+    }
+    private void Update()
+    {
+        if(Input.GetKey(KeyCode.E))
+            tpPlayer = true;
+        else 
+            tpPlayer = false;
+    }
+
+    public void setPostoTp(Vector3 p)
+    {
+        pos = p;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.GetComponent<PlayerController2D>() != null)
+        {
+            sprite.enabled = true;
+            if (tpPlayer)
+            {
+                collision.gameObject.transform.position = new Vector3(pos.x, pos.y, collision.gameObject.transform.position.z);
+                Destroy(transform.parent.gameObject);
+            }
+
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.GetComponent<PlayerController2D>() != null)
+            sprite.enabled = false;
     }
 }

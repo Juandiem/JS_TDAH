@@ -4,5 +4,10 @@ using UnityEngine;
 
 public class RoomSpawns : MonoBehaviour
 {
-    public Transform spawnL, spawnR;
+    public Transform spawn;
+
+    public Vector3 getPos()
+    {
+        return spawn.position;
+    }
 }
