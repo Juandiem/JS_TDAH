@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ChangeRails : MonoBehaviour
 {
@@ -25,6 +26,11 @@ public class ChangeRails : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.W))
         {
 
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 

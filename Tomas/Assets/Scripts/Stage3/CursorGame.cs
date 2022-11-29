@@ -42,7 +42,7 @@ public class CursorGame : MonoBehaviour
 
         myTurn.text = createNewNumber(9);
 
-        turnTriesMax = Random.Range(2, 5);
+        turnTriesMax = Random.Range(5, 8);
     }
 
     // Update is called once per frame
@@ -71,8 +71,14 @@ public class CursorGame : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(0);
+            StartCoroutine(EndGame());
         }
+    }
+
+    IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(3.0f);
+        SceneManager.LoadScene(0);
     }
 
     public bool isInMainArea(Vector3 pos)
