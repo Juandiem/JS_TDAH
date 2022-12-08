@@ -315,6 +315,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 611298077}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &237379184 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8701742895187892103, guid: da9ee40caf4aff44f9bd29457a585612,
+    type: 3}
+  m_PrefabInstance: {fileID: 1684272028}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &272987844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -778,11 +784,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6851c019739609448b4dcf05afd83190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomsPrefabs: []
-  roomPreviews: []
+  roomsPrefabs:
+  - {fileID: 1091568042738961149, guid: 66b5affbbe92bd24c9d620e371f366a4, type: 3}
+  - {fileID: 783352134590356133, guid: f0db157e8a336a54eb8ad0d571e3aaee, type: 3}
+  - {fileID: 7955592299717707737, guid: db75c81aca800364484738d57a7f7b27, type: 3}
+  - {fileID: 7776379019342292333, guid: 05294174702c23e4b80f1daf08f25a35, type: 3}
+  - {fileID: 5012907771182816459, guid: 71714059d3339e84d9418c757e2febdd, type: 3}
+  roomPreviews:
+  - {fileID: 1150492291}
+  - {fileID: 1728831171}
+  - {fileID: 237379184}
+  - {fileID: 1866347035}
+  - {fileID: 1306662941}
   placeHolderRoom: {fileID: 29314352}
   exitDoor: {fileID: 1899519583}
   clothes: {fileID: 86896107}
+  startRandomRooms: {fileID: 0}
+  endRandomRooms: {fileID: 0}
 --- !u!4 &823946361
 Transform:
   m_ObjectHideFlags: 0
@@ -1813,6 +1831,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1150492291 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8701742895187892103, guid: da9ee40caf4aff44f9bd29457a585612,
+    type: 3}
+  m_PrefabInstance: {fileID: 942002998}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1306662941 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8701742895187892103, guid: da9ee40caf4aff44f9bd29457a585612,
+    type: 3}
+  m_PrefabInstance: {fileID: 2023338976}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1396394048
 GameObject:
   m_ObjectHideFlags: 0
@@ -2160,6 +2190,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da9ee40caf4aff44f9bd29457a585612, type: 3}
+--- !u!1 &1728831171 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8701742895187892103, guid: da9ee40caf4aff44f9bd29457a585612,
+    type: 3}
+  m_PrefabInstance: {fileID: 272987844}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1859377127
 GameObject:
   m_ObjectHideFlags: 0
@@ -2231,6 +2267,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stair: {fileID: 1038914208}
+--- !u!1 &1866347035 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8701742895187892103, guid: da9ee40caf4aff44f9bd29457a585612,
+    type: 3}
+  m_PrefabInstance: {fileID: 611298077}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1899519583
 GameObject:
   m_ObjectHideFlags: 0
