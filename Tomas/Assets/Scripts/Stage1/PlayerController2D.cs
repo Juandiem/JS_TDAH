@@ -76,12 +76,6 @@ public class PlayerController2D : MonoBehaviour
             r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
         }
 
-        // Camera follow
-        if (mainCamera)
-        {
-            mainCamera.transform.position = new Vector3(t.position.x, t.position.y+offsetCamerY, cameraPos.z);
-        }
-
         //Gestion de animaciones
         if (Mathf.Abs(r2d.velocity.x) > 0.1f)
             animator.SetBool("Running", true);
@@ -93,7 +87,7 @@ public class PlayerController2D : MonoBehaviour
         else
             animator.SetBool("Falling", true);
 
-        if (Mathf.Abs(r2d.velocity.y) < 0.1f && Mathf.Abs(r2d.velocity.y) > -0.1f)
+        if (isGrounded)
             animator.SetBool("OnAir", false);
         else
             animator.SetBool("OnAir", true);
@@ -103,25 +97,6 @@ public class PlayerController2D : MonoBehaviour
 
     void FixedUpdate()
     {
-        Bounds colliderBounds = mainCollider.bounds;
-        float colliderRadius = mainCollider.size.x * 0.4f * Mathf.Abs(transform.localScale.x);
-        Vector3 groundCheckPos = colliderBounds.min + new Vector3(colliderBounds.size.x * 0.5f, colliderRadius * 0.9f, 0);
-        // Check if player is grounded
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheckPos, colliderRadius);
-        //Check if any of the overlapping colliders are not player collider, if so, set isGrounded to true
-        isGrounded = false;
-        if (colliders.Length > 0)
-        {
-            for (int i = 0; i < colliders.Length; i++)
-            {
-                if (colliders[i] != mainCollider && !colliders[i].isTrigger)
-                {
-                    isGrounded = true;
-                    break;
-                }
-            }
-        }
-
         // Apply movement velocity
         r2d.velocity = new Vector2((moveDirection) * maxSpeed, r2d.velocity.y);
     }
@@ -129,5 +104,15 @@ public class PlayerController2D : MonoBehaviour
     public void changeStreet()
     {
         isStreet = true;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.tag == "Floor") isGrounded = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Floor") isGrounded = false;
     }
 }

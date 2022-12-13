@@ -9,15 +9,17 @@ public class RoomConnections : MonoBehaviour
     bool tpPlayer = false;
 
     SpriteRenderer sprite;
+    GameManager gameManager;
 
     private void Start()
     {
+        gameManager = GameManager.instance;
         sprite = GetComponent<SpriteRenderer>();
         sprite.enabled = false;
     }
     private void Update()
     {
-        if(Input.GetKey(KeyCode.E))
+        if(Input.GetKeyDown(KeyCode.E))
             tpPlayer = true;
         else 
             tpPlayer = false;
@@ -37,6 +39,7 @@ public class RoomConnections : MonoBehaviour
             {
                 collision.gameObject.transform.position = new Vector3(pos.x, pos.y, collision.gameObject.transform.position.z);
                 Destroy(transform.parent.gameObject.transform.parent.gameObject);
+                gameManager.PlayerInHouse(true);
             }
 
         }

@@ -13,7 +13,14 @@ public class GameManager : MonoBehaviour
     public GameObject[] roomPreviews;
     public Transform placeHolderRoom;
     public GameObject exitDoor, clothes;
-    public Animation startRandomRooms, endRandomRooms;
+
+    public Transform target;
+
+    public Camera camera;
+
+    bool requestedRandomize = false, startRandomize = false, endRandomize = false, startTimer = false;
+
+    float timetoEnd = 2.0f, timePassedToEnd = 0.0f;
 
     private void Awake()
     {
@@ -32,11 +39,74 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.L))
         {
-            RandomizeRooms();
-            //StartRandomizing
+            StartRandomizing();
         }
         //Control de animacion
-        //if()...
+        if (startTimer)
+        {
+            timePassedToEnd += Time.deltaTime;
+            Debug.Log(timePassedToEnd);
+            endRandomize = true;
+        }
+
+        if (timePassedToEnd >= timetoEnd && startRandomize)
+        {
+            RandomizeRooms();
+            EndedRandomizingAnimation();
+            timePassedToEnd = 0.0f;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if(requestedRandomize && startRandomize)
+        {
+            for (int i = 0; i < roomPreviews.Length; i++)
+            {
+                Vector3 desiredPosition = new Vector3(target.position.x, target.position.y, 0);
+                Vector3 smoothedPosition = Vector3.Lerp(roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.transform.position, desiredPosition, 0.05f);
+                roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.transform.position = smoothedPosition;
+            }
+            startTimer = true;
+
+        }
+        else if (requestedRandomize && endRandomize)
+        {
+            for (int i = 0; i < roomPreviews.Length; i++)
+            {
+                Vector3 desiredPosition =
+                    new Vector3(roomPreviews[i].GetComponentInChildren<DoorConnection>().preview.transform.position.x,
+                    roomPreviews[i].GetComponentInChildren<DoorConnection>().preview.transform.position.y,
+                    roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.z
+                    );
+                Vector3 smoothedPosition = Vector3.Lerp(roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.transform.position, desiredPosition, 0.05f);
+                roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.transform.position = smoothedPosition;
+            }
+            //Comprobamos que han llegado a su sitio
+            Vector3 pos =
+                new Vector3((float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().preview.transform.position.x,1),
+                    (float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().preview.transform.position.y,1),
+                    (float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.z,1)
+                    );
+            Vector3 lastRoom =
+                new Vector3((float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.x,1),
+                    (float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.y,1),
+                    (float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.z,1)
+                    );
+            if (lastRoom == pos)
+            {
+                endRandomize = false;
+                startTimer = false;
+                requestedRandomize = false;
+                //Mostrar las vistas
+                for (int i = 0; i < roomPreviews.Length; i++)
+                {
+                    roomPreviews[i].GetComponentInChildren<DoorConnection>().smokeActive = true;
+                    roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.SetActive(false);
+                }
+            }
+        }
+
     }
 
     public Vector3 getPlaceHolderRoomPos()
@@ -51,18 +121,22 @@ public class GameManager : MonoBehaviour
 
     public void StartRandomizing() {
         //Ocultar las vistas
-        for(int i = 0;i<roomPreviews.Length;i++)
+        for (int i = 0; i < roomPreviews.Length; i++)
+        {
             roomPreviews[i].GetComponentInChildren<DoorConnection>().preview.SetActive(false);
+            roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.SetActive(true);
+        }
 
         //Hacer la animacion
-
+        requestedRandomize = true;
+        startRandomize = true;
     }
 
     private void EndedRandomizingAnimation()
     {
-        //Mostrar las vistas
-        for (int i = 0; i < roomPreviews.Length; i++)
-            roomPreviews[i].GetComponentInChildren<DoorConnection>().preview.SetActive(true);
+        startRandomize = false;
+        endRandomize = true;
+
     }
 
     private void RandomizeRooms()
@@ -87,12 +161,9 @@ public class GameManager : MonoBehaviour
             roomPreviews[i].GetComponentInChildren<DoorConnection>().room = tempGO;
 
             //Cambio de preview a mostrar y actualizar posicion
-            tempGO = roomPreviews[rand].GetComponentInChildren<DoorConnection>().preview;
-            roomPreviews[rand].GetComponentInChildren<DoorConnection>().preview = roomPreviews[i].GetComponentInChildren<DoorConnection>().preview;
-            roomPreviews[rand].GetComponentInChildren<DoorConnection>().preview.transform.position = roomPreviews[rand].transform.position;
-
-            roomPreviews[i].GetComponentInChildren<DoorConnection>().preview = tempGO;
-            roomPreviews[i].GetComponentInChildren<DoorConnection>().preview.transform.position = roomPreviews[i].transform.position;
+            Sprite tempSprite = roomPreviews[rand].GetComponentInChildren<DoorConnection>().preview.GetComponent<SpriteRenderer>().sprite;
+            roomPreviews[rand].GetComponentInChildren<DoorConnection>().preview.GetComponent<SpriteRenderer>().sprite = roomPreviews[i].GetComponentInChildren<DoorConnection>().preview.GetComponent<SpriteRenderer>().sprite;
+            roomPreviews[i].GetComponentInChildren<DoorConnection>().preview.GetComponent<SpriteRenderer>().sprite = tempSprite;
 
             //eliminamos el index para evitar posibles repeticiones
             if (instances.Length >= 0)
@@ -104,5 +175,10 @@ public class GameManager : MonoBehaviour
                 Array.Resize(ref instances, instances.Length - 1);
             }
         }
+    }
+
+    public void PlayerInHouse(bool state)
+    {
+        camera.GetComponent<CameraFollow>().cameraInHouse(state);
     }
 }
