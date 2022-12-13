@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Lives : MonoBehaviour
 {
     public int lives;
+    public GameObject[] hearts;
 
     private void Update()
     {
@@ -20,6 +21,7 @@ public class Lives : MonoBehaviour
         if (other.GetComponent<MoveObstacle>())
         {
             lives--;
+            hearts[lives].SetActive(false);
         }
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SignScale : MonoBehaviour
 {
+    public GameObject gloves;
+
     public float time;
     private float startingTime;
 
@@ -23,7 +25,8 @@ public class SignScale : MonoBehaviour
     {
         if (time < 0)
         {
-            transform.localScale = transform.localScale * 1.5f;
+            transform.localScale = transform.localScale * 1.05f;
+            transform.position =transform.position + new Vector3(0.5f,0,0);
             time = startingTime;
         }
         else time -= Time.deltaTime;
@@ -37,9 +40,9 @@ public class SignScale : MonoBehaviour
         else deathTime -= Time.deltaTime;
     }
 
-    public void changeTypeSign(Material m, bool g) // eventualmente lo que se cambiara sera la imagen
+    public void changeTypeSign(bool g) // eventualmente lo que se cambiara sera la imagen
     {
-        GetComponent<MeshRenderer>().material = m;
         good = g;
+        if(good)gloves.SetActive(true);
     }
 }
