@@ -15,8 +15,6 @@ public class SignGenerator : MonoBehaviour
 
     public float signSpeed;
 
-    public Material good, bad;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -28,10 +26,10 @@ public class SignGenerator : MonoBehaviour
     {
         if (time < 0)
         {
-            if (iterations < 0) SceneManager.LoadScene(2);
+            if (iterations < -1) SceneManager.LoadScene(2);
             GameObject s = Instantiate(sign, transform);
-            if (iterations == 0) s.GetComponent<SignScale>().changeTypeSign(good,true);
-            else s.GetComponent<SignScale>().changeTypeSign(bad,false);
+            if (iterations == 0) s.GetComponent<SignScale>().changeTypeSign(true);
+            else s.GetComponent<SignScale>().changeTypeSign(false);
             s.GetComponent<Rigidbody>().AddForce(new Vector3(0, signSpeed * 10, 0));
             iterations--;
             time = startingTime;
