@@ -41,7 +41,6 @@ public class CameraFollow : MonoBehaviour
     {
         if (isInHouse)
         {
-           GetComponent<Camera>().orthographicSize = cameraSize;
             leftLimit = leftHouseLimit;
             rightLimit = rightHouseLimit;
             topLimit = topHouseLimit;
@@ -49,7 +48,6 @@ public class CameraFollow : MonoBehaviour
         }
         else
         {
-            GetComponent<Camera>().orthographicSize = cameraSize*0.7f;
             leftLimit = leftRoomLimit;
             rightLimit = rightRoomLimit;
             topLimit = topRoomLimit;
@@ -85,4 +83,6 @@ public class CameraFollow : MonoBehaviour
         Gizmos.DrawLine(new Vector2(rightRoomLimit, bottomRoomLimit), new Vector2(leftRoomLimit, bottomRoomLimit));
         Gizmos.DrawLine(new Vector2(leftRoomLimit, bottomRoomLimit), new Vector2(leftRoomLimit, topRoomLimit));
     }
+
+
 }

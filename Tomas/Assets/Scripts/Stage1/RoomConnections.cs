@@ -11,20 +11,15 @@ public class RoomConnections : MonoBehaviour
     SpriteRenderer sprite;
     GameManager gameManager;
 
+    GameObject playerEKey;
+
     private void Start()
     {
         gameManager = GameManager.instance;
         sprite = GetComponent<SpriteRenderer>();
         sprite.enabled = false;
+        playerEKey = GameObject.Find("/Player/eKey");
     }
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.E))
-            tpPlayer = true;
-        else 
-            tpPlayer = false;
-    }
-
     public void setPostoTp(Vector3 p)
     {
         pos = p;
@@ -35,7 +30,8 @@ public class RoomConnections : MonoBehaviour
         if (collision.GetComponent<PlayerController2D>() != null)
         {
             sprite.enabled = true;
-            if (tpPlayer)
+            playerEKey.GetComponent<SpriteRenderer>().enabled = true;
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 collision.gameObject.transform.position = new Vector3(pos.x, pos.y, collision.gameObject.transform.position.z);
                 Destroy(transform.parent.gameObject.transform.parent.gameObject);
@@ -48,6 +44,9 @@ public class RoomConnections : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.GetComponent<PlayerController2D>() != null)
+        {
             sprite.enabled = false;
+            playerEKey.GetComponent<SpriteRenderer>().enabled = false;
+        }
     }
 }

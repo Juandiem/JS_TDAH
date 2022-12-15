@@ -7,6 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1013824546552341954, guid: db75c81aca800364484738d57a7f7b27,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1253094815406061919, guid: db75c81aca800364484738d57a7f7b27,
+        type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1421726060600937222, guid: db75c81aca800364484738d57a7f7b27,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957574735163467631, guid: db75c81aca800364484738d57a7f7b27,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7955592299557929835, guid: db75c81aca800364484738d57a7f7b27,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15,7 +35,12 @@ PrefabInstance:
     - target: {fileID: 7955592299717707737, guid: db75c81aca800364484738d57a7f7b27,
         type: 3}
       propertyPath: m_Name
-      value: BedroomMain
+      value: BedroomMain Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7955592299717707737, guid: db75c81aca800364484738d57a7f7b27,
+        type: 3}
+      propertyPath: m_TagString
+      value: mainBedroom
       objectReference: {fileID: 0}
     - target: {fileID: 7955592299717707740, guid: db75c81aca800364484738d57a7f7b27,
         type: 3}

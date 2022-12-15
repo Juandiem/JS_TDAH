@@ -1,5 +1,56 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4221419989695799885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3026701502912454585}
+  - component: {fileID: 3515044367013487850}
+  m_Layer: 0
+  m_Name: Floor
+  m_TagString: Floor
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3026701502912454585
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4221419989695799885}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5012907771182816462}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &3515044367013487850
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4221419989695799885}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -30.000002, y: 6.534019}
+  - {x: -30.013363, y: -12.36886}
+  - {x: 29.905313, y: -12.409935}
+  - {x: 30.000002, y: 4.277667}
 --- !u!1001 &5714623257448597102
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88,10 +139,57 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bathroom Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 783352134590356133, guid: f0db157e8a336a54eb8ad0d571e3aaee,
+        type: 3}
+      propertyPath: m_TagString
+      value: bathroom
+      objectReference: {fileID: 0}
     - target: {fileID: 783352134756687383, guid: f0db157e8a336a54eb8ad0d571e3aaee,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: -22.44
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 1419804414874112649, guid: f0db157e8a336a54eb8ad0d571e3aaee,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3128169965610874437, guid: f0db157e8a336a54eb8ad0d571e3aaee,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4658261433241693257, guid: f0db157e8a336a54eb8ad0d571e3aaee,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6692652439393342225, guid: f0db157e8a336a54eb8ad0d571e3aaee,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8575429592826009210, guid: f0db157e8a336a54eb8ad0d571e3aaee,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8780025123447571464, guid: f0db157e8a336a54eb8ad0d571e3aaee,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9192484899410295315, guid: f0db157e8a336a54eb8ad0d571e3aaee,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 783352134590356130, guid: f0db157e8a336a54eb8ad0d571e3aaee, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f0db157e8a336a54eb8ad0d571e3aaee, type: 3}
+--- !u!4 &5012907771182816462 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 783352134590356128, guid: f0db157e8a336a54eb8ad0d571e3aaee,
+    type: 3}
+  m_PrefabInstance: {fileID: 5714623257448597102}
+  m_PrefabAsset: {fileID: 0}

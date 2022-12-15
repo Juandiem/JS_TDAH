@@ -12,15 +12,18 @@ public class GameManager : MonoBehaviour
     public GameObject[] roomsPrefabs;
     public GameObject[] roomPreviews;
     public Transform placeHolderRoom;
-    public GameObject exitDoor, clothes;
+    public GameObject exitDoor;
 
-    public Transform target;
+    public Transform target, player;
 
     public Camera camera;
 
     bool requestedRandomize = false, startRandomize = false, endRandomize = false, startTimer = false;
 
     float timetoEnd = 2.0f, timePassedToEnd = 0.0f;
+    float sizeCam;
+
+    public bool isOnDialogue { get; set; }
 
     private void Awake()
     {
@@ -29,23 +32,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        sizeCam = camera.orthographicSize;
+        isOnDialogue = false;
     }
     private void Update()
     {
-        if (Input.GetKey(KeyCode.M))
-        {
-            clothes.SetActive(true);
-        }
-        if (Input.GetKey(KeyCode.L))
-        {
-            StartRandomizing();
-        }
         //Control de animacion
         if (startTimer)
         {
             timePassedToEnd += Time.deltaTime;
-            Debug.Log(timePassedToEnd);
             endRandomize = true;
         }
 
@@ -55,58 +50,78 @@ public class GameManager : MonoBehaviour
             EndedRandomizingAnimation();
             timePassedToEnd = 0.0f;
         }
+
+        if (requestedRandomize)
+        {
+            camera.GetComponent<CameraFollow>().target = target;
+            camera.orthographicSize = 1.8f*sizeCam;
+            player.GetComponent<PlayerController2D>().allowMove = false;
+        }
+        else
+        {
+            if(roomPlayer == "house")
+                camera.orthographicSize = sizeCam;
+            else
+                camera.orthographicSize = sizeCam*0.7f;
+            camera.GetComponent<CameraFollow>().target = player;
+            player.GetComponent<PlayerController2D>().allowMove = true;
+        }
     }
 
     private void FixedUpdate()
     {
-        if(requestedRandomize && startRandomize)
+        if (requestedRandomize)
         {
-            for (int i = 0; i < roomPreviews.Length; i++)
+            if (startRandomize)
             {
-                Vector3 desiredPosition = new Vector3(target.position.x, target.position.y, 0);
-                Vector3 smoothedPosition = Vector3.Lerp(roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.transform.position, desiredPosition, 0.05f);
-                roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.transform.position = smoothedPosition;
-            }
-            startTimer = true;
-
-        }
-        else if (requestedRandomize && endRandomize)
-        {
-            for (int i = 0; i < roomPreviews.Length; i++)
-            {
-                Vector3 desiredPosition =
-                    new Vector3(roomPreviews[i].GetComponentInChildren<DoorConnection>().preview.transform.position.x,
-                    roomPreviews[i].GetComponentInChildren<DoorConnection>().preview.transform.position.y,
-                    roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.z
-                    );
-                Vector3 smoothedPosition = Vector3.Lerp(roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.transform.position, desiredPosition, 0.05f);
-                roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.transform.position = smoothedPosition;
-            }
-            //Comprobamos que han llegado a su sitio
-            Vector3 pos =
-                new Vector3((float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().preview.transform.position.x,1),
-                    (float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().preview.transform.position.y,1),
-                    (float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.z,1)
-                    );
-            Vector3 lastRoom =
-                new Vector3((float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.x,1),
-                    (float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.y,1),
-                    (float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.z,1)
-                    );
-            if (lastRoom == pos)
-            {
-                endRandomize = false;
-                startTimer = false;
-                requestedRandomize = false;
-                //Mostrar las vistas
                 for (int i = 0; i < roomPreviews.Length; i++)
                 {
-                    roomPreviews[i].GetComponentInChildren<DoorConnection>().smokeActive = true;
-                    roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.SetActive(false);
+                    Vector3 desiredPosition = new Vector3(target.position.x, target.position.y, 0);
+                    Vector3 smoothedPosition = Vector3.Lerp(roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.transform.position, desiredPosition, 0.05f);
+                    roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.transform.position = smoothedPosition;
+                }
+                startTimer = true;
+
+            }
+            else if (endRandomize)
+            {
+                for (int i = 0; i < roomPreviews.Length; i++)
+                {
+                    Vector3 desiredPosition =
+                        new Vector3(roomPreviews[i].GetComponentInChildren<DoorConnection>().preview.transform.position.x,
+                        roomPreviews[i].GetComponentInChildren<DoorConnection>().preview.transform.position.y,
+                        roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.z
+                        );
+                    Vector3 smoothedPosition = Vector3.Lerp(roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.transform.position, desiredPosition, 0.05f);
+                    roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.transform.position = smoothedPosition;
+                }
+                //Comprobamos que han llegado a su sitio
+                Vector3 pos =
+                    new Vector3((float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().preview.transform.position.x, 1),
+                        (float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().preview.transform.position.y, 1),
+                        (float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.z, 1)
+                        );
+                Vector3 lastRoom =
+                    new Vector3((float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.x, 1),
+                        (float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.y, 1),
+                        (float)Math.Round(roomPreviews[roomPreviews.Length - 1].GetComponentInChildren<DoorConnection>().smoke.transform.position.z, 1)
+                        );
+                if (lastRoom == pos)
+                {
+                    endRandomize = false;
+                    startTimer = false;
+                    requestedRandomize = false;
+                    //Mostrar las vistas
+                    for (int i = 0; i < roomPreviews.Length; i++)
+                    {
+                        roomPreviews[i].GetComponentInChildren<DoorConnection>().smokeActive = true;
+                        roomPreviews[i].GetComponentInChildren<DoorConnection>().smoke.SetActive(false);
+                    }
                 }
             }
-        }
 
+
+        }
     }
 
     public Vector3 getPlaceHolderRoomPos()
@@ -180,5 +195,9 @@ public class GameManager : MonoBehaviour
     public void PlayerInHouse(bool state)
     {
         camera.GetComponent<CameraFollow>().cameraInHouse(state);
+        if(state)roomPlayer = "house";
     }
+
+    public string roomPlayer = "house";
+
 }

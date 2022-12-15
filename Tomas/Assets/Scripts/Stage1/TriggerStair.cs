@@ -5,6 +5,7 @@ using UnityEngine;
 public class TriggerStair : MonoBehaviour
 {
     public Collider2D stair;
+    public GameObject playerWSKey;
 
     bool isColliding = false;
     // Update is called once per frame
@@ -19,12 +20,18 @@ public class TriggerStair : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.GetComponent<PlayerController2D>() != null)
+        if (collision.GetComponent<PlayerController2D>() != null)
+        {
             isColliding = true;
+            playerWSKey.GetComponent<SpriteRenderer>().enabled = true;
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.GetComponent<PlayerController2D>() != null)
+        {
             isColliding = false;
+            playerWSKey.GetComponent<SpriteRenderer>().enabled = false;
+        }
     }
 }

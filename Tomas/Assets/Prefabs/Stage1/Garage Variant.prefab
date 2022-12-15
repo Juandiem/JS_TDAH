@@ -1,5 +1,56 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8165459088996346497
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4961993649833902006}
+  - component: {fileID: 8935441499953707593}
+  m_Layer: 0
+  m_Name: Floor
+  m_TagString: Floor
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4961993649833902006
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8165459088996346497}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1701605242557848121}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &8935441499953707593
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8165459088996346497}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -30.000002, y: 6.534019}
+  - {x: -30.013363, y: -12.36886}
+  - {x: 29.905313, y: -12.409935}
+  - {x: 30.000002, y: 4.277667}
 --- !u!1001 &3092294564787419747
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -103,5 +154,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Garage Variant
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4429107122916827231, guid: de06590786f09cb4a8ceebdb9680bad5,
+        type: 3}
+      propertyPath: m_TagString
+      value: garage
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4429107122916827224, guid: de06590786f09cb4a8ceebdb9680bad5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: de06590786f09cb4a8ceebdb9680bad5, type: 3}
+--- !u!4 &1701605242557848121 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4429107122916827226, guid: de06590786f09cb4a8ceebdb9680bad5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3092294564787419747}
+  m_PrefabAsset: {fileID: 0}

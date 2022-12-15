@@ -10,7 +10,8 @@ public class PlayerController2D : MonoBehaviour
     public float gravityScale = 1.5f;
     public Camera mainCamera;
     public float offsetCamerY = 10.0f;
-    public Animator TimmyAnimatorStreet; 
+    public Animator TimmyAnimatorStreet;
+    public bool allowMove { get;  set; }
 
     bool flip = true;
     float moveDirection = 0;
@@ -40,6 +41,7 @@ public class PlayerController2D : MonoBehaviour
         {
             cameraPos = mainCamera.transform.position;
         }
+        allowMove = true;
     }
 
     // Update is called once per frame
@@ -51,13 +53,23 @@ public class PlayerController2D : MonoBehaviour
             animatorChange = false;
         }
 
-        // Movement controls
-        if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
+        if (allowMove && !GameManager.instance.isOnDialogue)
         {
-            moveDirection = Input.GetKey(KeyCode.A) ? -1 : 1;
+
+            // Movement controls
+            if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
+            {
+                moveDirection = Input.GetKey(KeyCode.A) ? -1 : 1;
+            }
+            else
+                moveDirection = 0;
+
+            // Jumping
+            if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+            {
+                r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
+            }
         }
-        else
-            moveDirection = 0;
 
         // Change facing direction
         if (moveDirection != 0)
@@ -70,11 +82,6 @@ public class PlayerController2D : MonoBehaviour
             GetComponent<SpriteRenderer>().flipX = flip;
         }
 
-        // Jumping
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
-        }
 
         //Gestion de animaciones
         if (Mathf.Abs(r2d.velocity.x) > 0.1f)

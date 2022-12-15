@@ -5,6 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Floor
+  - bathroom
+  - mainBedroom
+  - bedroom
+  - office
+  - garage
+  - Mom
+  - clothes
   layers:
   - Default
   - TransparentFX

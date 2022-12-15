@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 4429107122916827224}
   m_Layer: 0
   m_Name: Room
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -331,4 +331,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 400c386c9f533de4da3d0ff38934349f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pos: {fileID: 0}
