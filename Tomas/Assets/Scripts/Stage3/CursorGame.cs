@@ -27,7 +27,12 @@ public class CursorGame : MonoBehaviour
     Vector3 cursorAreaIniScale;
     Vector3 randomMove;
 
-    bool endGame = false;
+    bool endGame = false, endScene = false;
+
+    bool isOnDialogue = false;
+
+    DialogueTrigger dialoguePlayer;
+    public DialogueManager dialogueManager;
 
     // Start is called before the first frame update
     void Start()
@@ -42,44 +47,74 @@ public class CursorGame : MonoBehaviour
 
         myTurn.text = createNewNumber(9);
 
-        turnTriesMax = Random.Range(5, 8);
+        turnTriesMax = Random.Range(12, 18);
+        dialoguePlayer = GetComponent<DialogueTrigger>();
+        dialoguePlayer.TriggerDialogue();
+        isOnDialogue = false;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!endGame)
+        isOnDialogue = dialogueManager.isOnDialogue;
+        if (!isOnDialogue)
         {
-            if (healthBar.getHealth() <= 0 || isSameTurn())
+            if (endScene)
             {
-                //terminar juego
-                if (!isSameTurn())
-                    Debug.Log("No tan Fino");
+                SceneManager.LoadScene(0);
+            }
+            if (!endGame)
+            {
+                if (healthBar.getHealth() <= 0 || isSameTurn())
+                {
+                    //terminar juego
+                    if (!isSameTurn())
+                    {
+                        Debug.Log("No tan Fino");
+                        dialoguePlayer.dialogue.sentences.Clear();
+                        dialoguePlayer.dialogue.sentences.Add("Ya está me aburro, no agunto más en este sitio");
+                        dialoguePlayer.dialogue.sentences.Add("Le diré a mamá que no le quedaban barras y me vuelvo a casa, total no quería pan...");
+                    }
+                    else
+                    {
+                        Debug.Log("Fino");
+                        dialoguePlayer.dialogue.sentences.Clear();
+                        dialoguePlayer.dialogue.sentences.Add("¡Por fin! Mi turno. Ya era hora.");
+                        dialoguePlayer.dialogue.sentences.Add("Quería una barra de pan. Gracias");
+                        dialoguePlayer.dialogue.sentences.Add("...");
+                        dialoguePlayer.dialogue.sentences.Add("...");
+                        dialoguePlayer.dialogue.sentences.Add("...");
+                        dialoguePlayer.dialogue.sentences.Add("¡Genial! Mmmmmm, que bien huele, tengo que volver rápido o el pan se quedará más frío que el iceberg de Titanic");
+                        dialoguePlayer.dialogue.sentences.Add("Bueno si cojo un poco por el camino, no pasará nada... ¡Mmmmm, que rico!");
+                    }
+                    endGame = true;
+                }
                 else
-                    Debug.Log("Fino");
-                endGame = true;
+                {
+                    checkCursorArea();
+                    checkMoveArea();
+                    updateTurn();
+
+                    moveArea();
+                    scaleArea();
+                }
             }
             else
             {
-                checkCursorArea();
-                checkMoveArea();
-                updateTurn();
-
-                moveArea();
-                scaleArea();
+                EndGame();
             }
         }
-        else
-        {
-            StartCoroutine(EndGame());
-        }
+        
     }
 
-    IEnumerator EndGame()
+    void EndGame()
     {
-        yield return new WaitForSeconds(3.0f);
-        SceneManager.LoadScene(0);
+        endScene = true;
+        dialoguePlayer.TriggerDialogue();
     }
+
+
 
     public bool isInMainArea(Vector3 pos)
     {

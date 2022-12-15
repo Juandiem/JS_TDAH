@@ -1364,6 +1364,7 @@ MonoBehaviour:
   - {fileID: 1306662941}
   placeHolderRoom: {fileID: 29314352}
   exitDoor: {fileID: 1899519583}
+  DialogueManager: {fileID: 7780867873730114103}
   target: {fileID: 1632936527}
   player: {fileID: 888066630}
   camera: {fileID: 1088892044}
@@ -2353,7 +2354,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 7780867873730114102}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 7780867873730114103}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9af22afc572dbe6488fa935425a2a36e, type: 3}
@@ -4832,3 +4833,9 @@ PrefabInstance:
       objectReference: {fileID: 1689347453}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 001aa3057d0768849a7e22fe774032b1, type: 3}
+--- !u!1 &7780867873730114103 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7780867872884563684, guid: 001aa3057d0768849a7e22fe774032b1,
+    type: 3}
+  m_PrefabInstance: {fileID: 7780867873730114102}
+  m_PrefabAsset: {fileID: 0}

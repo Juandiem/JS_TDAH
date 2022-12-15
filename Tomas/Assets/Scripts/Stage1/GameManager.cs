@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public Transform placeHolderRoom;
     public GameObject exitDoor;
 
+    public GameObject DialogueManager;
+
     public Transform target, player;
 
     public Camera camera;
@@ -33,10 +35,15 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         sizeCam = camera.orthographicSize;
-        isOnDialogue = false;
+        if(DialogueManager != null)
+            isOnDialogue = player.GetComponent<DialogueManager>().isOnDialogue;
     }
     private void Update()
     {
+        //Comprobar si está en dialogo
+        if (DialogueManager != null)
+            isOnDialogue = player.GetComponent<DialogueManager>().isOnDialogue;
+
         //Control de animacion
         if (startTimer)
         {
