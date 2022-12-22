@@ -34,7 +34,6 @@ public class MoveObstacle : MonoBehaviour
             if (posToMove != null && posToMove.Count >0 && post != posToMove[0])
             {
                 Move(posToMove[0]);
-                post = posToMove[0];
             }
         }
         else time-=Time.deltaTime;
@@ -42,13 +41,9 @@ public class MoveObstacle : MonoBehaviour
         if(!moved)
         if (transform.position.x <= post.x + 0.1f && transform.position.x >= post.x - 0.1f)
         {
-            if (transform.position.y <= post.y + 1.0f && transform.position.y >= post.y - 1.0f)
-            {
                 rb.velocity = new Vector3(0, 0, rb.velocity.z);
                 posToMove.RemoveAt(0);
                 moved = true;
-            }
-                
         }
     }
 
