@@ -1032,7 +1032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b88cf9ecc1002648bae0f64aa624e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 2
+  time: 0.5
   obstacle: {fileID: 4672398124700983034, guid: 338a2af8b6133c045bf8ab56a8b5f02d,
     type: 3}
 --- !u!4 &947560563

@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SignScale : MonoBehaviour
 {
     public GameObject gloves;
+    public GameObject text;
 
     public float time;
     private float startingTime;
@@ -40,9 +42,13 @@ public class SignScale : MonoBehaviour
         else deathTime -= Time.deltaTime;
     }
 
-    public void changeTypeSign(bool g) // eventualmente lo que se cambiara sera la imagen
+    public void SetGlovesColor(Color c)
     {
-        good = g;
-        if(good)gloves.SetActive(true);
+        gloves.GetComponent<SpriteRenderer>().color = c;
+    }
+
+    public void SetText(string s)
+    {
+        text.GetComponent<TextMesh>().text = s;
     }
 }
