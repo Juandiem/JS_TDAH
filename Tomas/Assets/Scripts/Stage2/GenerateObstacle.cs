@@ -8,6 +8,7 @@ public class GenerateObstacle : MonoBehaviour
     private float startingTime;
 
     public GameObject obstacle;
+    public GameObject ScoreManager;
 
     // Start is called before the first frame update
     void Start()
@@ -21,8 +22,11 @@ public class GenerateObstacle : MonoBehaviour
         if (time <= 0)
         {
             GameObject o = Instantiate(obstacle, transform);
+            o.GetComponent<MoveObstacle>().ScoreManager = ScoreManager;
+
             NormalWave(o);
-            TwistWave(o);
+            int i = Random.Range(1, 4);
+            TwistWave(o, i);
             time = startingTime;
         }
         else time -= Time.deltaTime;
@@ -51,30 +55,34 @@ public class GenerateObstacle : MonoBehaviour
         o.GetComponent<MoveObstacle>().speed = 5;
     }
 
-    private void TwistWave(GameObject o)
+    private void TwistWave(GameObject o, int rep)
     {
         List<Vector3> l = new List<Vector3>();
-        int i = Random.Range(0, 4);
-        switch (i)
+        for(int j = 0; j < rep; j++)
         {
-            case 0:
-                l.Add(new Vector3(-10, 0, 0));
-                break;
-            case 1:
-                l.Add(new Vector3(-5, 0, 0));
-                break;
-            case 2:
-                l.Add(new Vector3(0, 0, 0));
-                break;
-            case 3:
-                l.Add(new Vector3(5, 0, 0));
-                break;
-            case 4:
-                l.Add(new Vector3(10, 0, 0));
-                break;
+            int i = Random.Range(0, 4);
+            switch (i)
+            {
+                case 0:
+                    l.Add(new Vector3(-10, 0, 0));
+                    break;
+                case 1:
+                    l.Add(new Vector3(-5, 0, 0));
+                    break;
+                case 2:
+                    l.Add(new Vector3(0, 0, 0));
+                    break;
+                case 3:
+                    l.Add(new Vector3(5, 0, 0));
+                    break;
+                case 4:
+                    l.Add(new Vector3(10, 0, 0));
+                    break;
+            }
+            o.GetComponent<MoveObstacle>().EnqueuePos(l);
         }
-        o.GetComponent<MoveObstacle>().EnqueuePos(l);
-        o.GetComponent<MoveObstacle>().time = 1;
+       
+        o.GetComponent<MoveObstacle>().time = 0.5f;
         o.GetComponent<MoveObstacle>().speedToMove = 5;
     }
 }

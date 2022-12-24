@@ -17,6 +17,8 @@ public class MoveObstacle : MonoBehaviour
 
     private bool moved;
 
+    public GameObject ScoreManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,5 +62,10 @@ public class MoveObstacle : MonoBehaviour
     public void EnqueuePos(List<Vector3> pos)
     {
         posToMove = pos;
+    }
+
+    private void OnDestroy()
+    {
+        ScoreManager.GetComponent<ScoreManager>().AddScore(100);
     }
 }

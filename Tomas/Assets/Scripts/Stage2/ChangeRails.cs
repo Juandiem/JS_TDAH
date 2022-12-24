@@ -15,7 +15,6 @@ public class ChangeRails : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             if(index>0)index--;
-            Debug.Log("AAAAA");
             ChangeToIndexRail();
         }
         else if (Input.GetKeyDown(KeyCode.D))
