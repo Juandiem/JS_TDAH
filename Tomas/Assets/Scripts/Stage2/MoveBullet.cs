@@ -19,8 +19,7 @@ public class MoveBullet : MonoBehaviour
     {
         if(other.gameObject.GetComponent<MoveObstacle>())
         {
-
-
+            other.GetComponent<MoveObstacle>().AddPoints();
             Destroy(other.gameObject);
             Destroy(this.gameObject);
         }

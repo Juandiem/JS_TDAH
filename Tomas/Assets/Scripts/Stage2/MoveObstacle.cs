@@ -64,7 +64,7 @@ public class MoveObstacle : MonoBehaviour
         posToMove = pos;
     }
 
-    private void OnDestroy()
+    public void AddPoints()
     {
         ScoreManager.GetComponent<ScoreManager>().AddScore(100);
     }
