@@ -42,6 +42,11 @@ public class SignScale : MonoBehaviour
         else deathTime -= Time.deltaTime;
     }
 
+    public void SetGoodSign(bool b)
+    {
+        good = b;
+    }
+
     public void SetGlovesColor(Color c)
     {
         gloves.GetComponent<SpriteRenderer>().color = c;

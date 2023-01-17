@@ -34,6 +34,7 @@ public class SignGenerator : MonoBehaviour
             {
                 s.GetComponent<SignScale>().SetGlovesColor(Color.red);
                 s.GetComponent<SignScale>().SetText("Kwal");
+                s.GetComponent<SignScale>().SetGoodSign(true);
             }
             else
             {
