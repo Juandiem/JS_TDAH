@@ -41,7 +41,7 @@ public class LevelManager : MonoBehaviour
         dialoguePlayer.dialogue.sentences.Add("Son fáciles de ver, pero no te pases de la parada, ten cuidado");
         dialoguePlayer.dialogue.sentences.Add("Bueno te dejo, que me llaman por la otra línea");
         dialoguePlayer.dialogue.sentences.Add("Si te pasa algo llamame");
-        dialoguePlayer.dialogue.sentences.Add("TUTORIAL: Presiona P cuando quieras BAJAR");
+        dialoguePlayer.dialogue.sentences.Add("Presiona la P cuando quieras BAJAR");
     }
 
     // Update is called once per frame

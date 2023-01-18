@@ -36,8 +36,10 @@ public class ShowItem : MonoBehaviour
         if (collision.GetComponent<PlayerController2D>() != null)
         {
             playerFKey.GetComponent<SpriteRenderer>().enabled = true;
-            if (Input.GetKeyDown(KeyCode.F)){
-                if(!collision.GetComponent<QuestGiver>().currentQuest.goals[0].completed)
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                playerFKey.GetComponent<SpriteRenderer>().enabled = false;
+                if (!collision.GetComponent<QuestGiver>().currentQuest.goals[0].completed)
                 {
                     InteractWithGoal g = collision.GetComponent<QuestGiver>().currentQuest.goals[0] as InteractWithGoal;
                     g.ObjectInteracted(this.gameObject);
@@ -57,7 +59,6 @@ public class ShowItem : MonoBehaviour
                         dialoguePlayer.dialogue.sentences.Add("Sé un cielo, y mira a ver si la encuentras.");
                     }
 
-                    playerFKey.GetComponent<SpriteRenderer>().enabled = false;
                     Destroy(gameObject);
                 }
             }
