@@ -13,7 +13,7 @@ public class QuestGiver : MonoBehaviour
     public Text titleText;
     public Text descriptionText;
 
-    int phase = -1;
+    int phase = -2;
 
     bool randomize = false;
 
@@ -22,8 +22,11 @@ public class QuestGiver : MonoBehaviour
     private void Start()
     {
         dialoguePlayer = GetComponent<DialogueTrigger>();
-        AcceptQuest();
-        OpenQuestWindow();
+        dialoguePlayer.dialogue.sentences.Clear();
+        dialoguePlayer.dialogue.name = "MAMÁ";
+        dialoguePlayer.dialogue.sentences.Add("¡¡¡¡¡TIMMY, CARIÑOOOO!!!!!!");
+        dialoguePlayer.dialogue.sentences.Add("¡Puedes venir a la cocina un momento, hijo!");
+        dialoguePlayer.dialogue.sentences.Add("¡Necesito ayuda con una cosa!");
     }
 
     public void OpenQuestWindow()
@@ -37,6 +40,7 @@ public class QuestGiver : MonoBehaviour
         switch (phase)
         {
             case -1:
+                dialoguePlayer.dialogue.sentences.Clear();
                 dialoguePlayer.dialogue.name = "MAMÁ";
                 dialoguePlayer.dialogue.sentences.Add("Hola hijo, que bien que has aparecido, veras hoy he tenido que hacer muchas cosas y con las prisas me " +
                     "he dejado la compra en el garaje.");
@@ -102,23 +106,43 @@ public class QuestGiver : MonoBehaviour
 
     public void checkEndQuest()
     {
-        if (currentQuest != null )
+        if (currentQuest != null)
         {
             currentQuest.CheckGoals();
-            if (currentQuest.completed) {
+            if (currentQuest.completed)
+            {
                 phase++;
-                AcceptQuest(); 
+                AcceptQuest();
             }
         }
     }
 
     private void Update()
     {
-        if(randomize && GameManager.instance.roomPlayer =="house")
+        if (!LevelChanger.instance.fadeInCompleted)
         {
-            GameManager.instance.StartRandomizing();
-            randomize = false;
+            dialoguePlayer.TriggerDialogue();
         }
-        checkEndQuest();
+        else
+        {
+            if (randomize && GameManager.instance.roomPlayer == "house")
+            {
+                GameManager.instance.StartRandomizing();
+                randomize = false;
+            }
+
+            if (phase > -2)
+                checkEndQuest();
+            else
+            {
+                if (!GameManager.instance.isOnDialogue)
+                {
+                    phase++;
+                    AcceptQuest();
+                    OpenQuestWindow();
+                }
+
+            }
+        }
     }
 }

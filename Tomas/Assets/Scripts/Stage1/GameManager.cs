@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject DialogueManager;
 
     public Transform target, player;
+    public DialogueTrigger dialoguePlayer;
 
     public Camera camera;
 
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     float timetoEnd = 2.0f, timePassedToEnd = 0.0f;
     float sizeCam;
+
+    public GameObject options;
 
     public bool isOnDialogue { get; set; }
 
@@ -35,14 +38,23 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         sizeCam = camera.orthographicSize;
-        if(DialogueManager != null)
-            isOnDialogue = player.GetComponent<DialogueManager>().isOnDialogue;
+        if (DialogueManager != null)
+        {
+            isOnDialogue = DialogueManager.GetComponent<DialogueManager>().isOnDialogue;
+        }
     }
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            options.SetActive(!options.activeSelf);
+            Time.timeScale = (options.activeSelf) ? 0f : 1f;
+        }
+
         //Comprobar si está en dialogo
         if (DialogueManager != null)
-            isOnDialogue = player.GetComponent<DialogueManager>().isOnDialogue;
+            isOnDialogue = DialogueManager.GetComponent<DialogueManager>().isOnDialogue;
+
 
         //Control de animacion
         if (startTimer)
@@ -71,7 +83,7 @@ public class GameManager : MonoBehaviour
             else
                 camera.orthographicSize = sizeCam*0.7f;
             camera.GetComponent<CameraFollow>().target = player;
-            player.GetComponent<PlayerController2D>().allowMove = true;
+            player.GetComponent<PlayerController2D>().allowMove = !isOnDialogue;
         }
     }
 

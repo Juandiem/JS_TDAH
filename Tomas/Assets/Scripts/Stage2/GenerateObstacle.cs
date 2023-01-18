@@ -19,17 +19,20 @@ public class GenerateObstacle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (time <= 0)
+        if (LevelManager.instance.startGame)
         {
-            GameObject o = Instantiate(obstacle, transform);
-            o.GetComponent<MoveObstacle>().ScoreManager = ScoreManager;
+            if (time <= 0)
+            {
+                GameObject o = Instantiate(obstacle, transform);
+                o.GetComponent<MoveObstacle>().ScoreManager = ScoreManager;
 
-            NormalWave(o);
-            int i = Random.Range(1, 4);
-            TwistWave(o, i);
-            time = startingTime;
+                NormalWave(o);
+                int i = Random.Range(1, 4);
+                TwistWave(o, i);
+                time = startingTime;
+            }
+            else time -= Time.deltaTime;
         }
-        else time -= Time.deltaTime;
     }
 
     private void NormalWave(GameObject o)

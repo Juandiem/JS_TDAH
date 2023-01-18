@@ -10,7 +10,7 @@ public class ExitDoor : MonoBehaviour
     private void Update()
     {
         if(isColliding && Input.GetKey(KeyCode.E))
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            LevelChanger.instance.FadeToNextLevel();
     }
     private void OnTriggerStay2D(Collider2D collision)
     {

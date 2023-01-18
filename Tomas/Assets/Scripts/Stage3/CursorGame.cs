@@ -27,12 +27,15 @@ public class CursorGame : MonoBehaviour
     Vector3 cursorAreaIniScale;
     Vector3 randomMove;
 
-    bool endGame = false, endScene = false;
+    bool endGame = false, win = false;
 
-    bool isOnDialogue = false;
+    bool isOnDialogue = false, startGame = false;
 
     DialogueTrigger dialoguePlayer;
     public DialogueManager dialogueManager;
+
+    public AudioClip song;
+    public GameObject options;
 
     // Start is called before the first frame update
     void Start()
@@ -49,69 +52,102 @@ public class CursorGame : MonoBehaviour
 
         turnTriesMax = Random.Range(12, 18);
         dialoguePlayer = GetComponent<DialogueTrigger>();
-        dialoguePlayer.TriggerDialogue();
         isOnDialogue = false;
 
+
+        MusicManager.instance.setAudioClip(song);
+        MusicManager.instance.play();
+
+        dialoguePlayer.dialogue.sentences.Clear();
+        dialoguePlayer.dialogue.name = "TIMMY";
+        dialoguePlayer.dialogue.sentences.Add("Por fin he llegado... Se me ha hecho eterno el viaje, pensaba que me perdía con la dirección.");
+        dialoguePlayer.dialogue.sentences.Add("Al parecer hay turno de cliente.");
+        dialoguePlayer.dialogue.sentences.Add("...");
+        dialoguePlayer.dialogue.sentences.Add("...");
+        dialoguePlayer.dialogue.sentences.Add("...");
+        dialoguePlayer.dialogue.sentences.Add("¡¿Qué es ese número?! Es gigante, así va a ser imposible saber cuando me va a tocar....");
+        dialoguePlayer.dialogue.sentences.Add("Bueno, no me queda otra opción...");
+        dialoguePlayer.dialogue.sentences.Add("No me gusta este sitio, es aburridisimo esperar aquí.");
+        dialoguePlayer.dialogue.sentences.Add("Espero que no tarde mucho...");
+        dialoguePlayer.dialogue.sentences.Add("...");
     }
 
     // Update is called once per frame
     void Update()
     {
-        isOnDialogue = dialogueManager.isOnDialogue;
-        if (!isOnDialogue)
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (endScene)
+            options.SetActive(!options.activeSelf);
+            Time.timeScale = (options.activeSelf) ? 0f : 1f;
+        }
+
+        if (!LevelChanger.instance.fadeInCompleted)
+        {
+            dialoguePlayer.TriggerDialogue();
+        }
+        else
+        {
+            isOnDialogue = dialogueManager.isOnDialogue;
+            if (!isOnDialogue)
             {
-                SceneManager.LoadScene(0);
-            }
-            if (!endGame)
-            {
-                if (healthBar.getHealth() <= 0 || isSameTurn())
+                if (endGame)
                 {
-                    //terminar juego
-                    if (!isSameTurn())
-                    {
-                        Debug.Log("No tan Fino");
-                        dialoguePlayer.dialogue.sentences.Clear();
-                        dialoguePlayer.dialogue.sentences.Add("Ya está me aburro, no agunto más en este sitio");
-                        dialoguePlayer.dialogue.sentences.Add("Le diré a mamá que no le quedaban barras y me vuelvo a casa, total no quería pan...");
-                    }
-                    else
-                    {
-                        Debug.Log("Fino");
-                        dialoguePlayer.dialogue.sentences.Clear();
-                        dialoguePlayer.dialogue.sentences.Add("¡Por fin! Mi turno. Ya era hora.");
-                        dialoguePlayer.dialogue.sentences.Add("Quería una barra de pan. Gracias");
-                        dialoguePlayer.dialogue.sentences.Add("...");
-                        dialoguePlayer.dialogue.sentences.Add("...");
-                        dialoguePlayer.dialogue.sentences.Add("...");
-                        dialoguePlayer.dialogue.sentences.Add("¡Genial! Mmmmmm, que bien huele, tengo que volver rápido o el pan se quedará más frío que el iceberg de Titanic");
-                        dialoguePlayer.dialogue.sentences.Add("Bueno si cojo un poco por el camino, no pasará nada... ¡Mmmmm, que rico!");
-                    }
-                    endGame = true;
+                    EndGame();
                 }
                 else
                 {
-                    checkCursorArea();
-                    checkMoveArea();
-                    updateTurn();
+                    if (healthBar.getHealth() <= 0 || isSameTurn())
+                    {
+                        //terminar juego
+                        if (!isSameTurn())
+                        {
+                            Debug.Log("No tan Fino");
+                            dialoguePlayer.dialogue.sentences.Clear();
+                            dialoguePlayer.dialogue.sentences.Add("Ya está me aburro, no aguanto más en este sitio");
+                            dialoguePlayer.dialogue.sentences.Add("Le diré a mamá que no le quedaban barras y me vuelvo a casa, total no quería pan...");
+                        }
+                        else
+                        {
+                            win = true;
+                            Debug.Log("Fino");
+                            dialoguePlayer.dialogue.sentences.Clear();
+                            dialoguePlayer.dialogue.sentences.Add("¡Por fin! Mi turno. Ya era hora.");
+                            dialoguePlayer.dialogue.sentences.Add("Quería una barra de pan. Gracias");
+                            dialoguePlayer.dialogue.sentences.Add("...");
+                            dialoguePlayer.dialogue.sentences.Add("...");
+                            dialoguePlayer.dialogue.sentences.Add("...");
+                            dialoguePlayer.dialogue.sentences.Add("¡Genial! Mmmmmm, que bien huele, tengo que volver rápido o el pan se quedará más frío que el iceberg de Titanic");
+                            dialoguePlayer.dialogue.sentences.Add("Bueno si cojo un poco por el camino, no pasará nada... ¡Mmmmm, que rico!");
+                        }
+                        dialoguePlayer.TriggerDialogue();
+                        endGame = true;
+                    }
+                    else
+                    {
+                        checkCursorArea();
+                        checkMoveArea();
+                        updateTurn();
 
-                    moveArea();
-                    scaleArea();
+                        moveArea();
+                        scaleArea();
+                    }
                 }
             }
-            else
-            {
-                EndGame();
-            }
+
         }
-        
     }
 
     void EndGame()
     {
-        endScene = true;
-        dialoguePlayer.TriggerDialogue();
+        if (!dialogueManager.isOnDialogue)
+        {
+            if(win)
+                LevelChanger.instance.FadeToNextLevel();
+            else
+                LevelChanger.instance.FadeToLevel(0);
+
+        }
     }
 
 
@@ -143,9 +179,9 @@ public class CursorGame : MonoBehaviour
         if (dir_time >= cd_dirTime)
         {
             dir_time = 0.0f;
-            randomMove = new Vector3((float)(Random.Range(-10, 20) / 100.0f), (float)(Random.Range(-10, 20) / 100.0f), 0);
+            randomMove = new Vector3((float)(Random.Range(-20, 20) / 100.0f), (float)(Random.Range(-20, 20) / 100.0f), 0);
 
-            cursorArea.transform.localPosition += randomMove;
+            cursorArea.transform.localPosition += randomMove*2;
         }
         else
             dir_time += Time.deltaTime;
@@ -201,8 +237,8 @@ public class CursorGame : MonoBehaviour
         else
         {
             factorScaleArea -= Time.deltaTime*penaltyMultiplier;
-            if (factorScaleArea < 0.3f)
-                factorScaleArea = 0.3f;
+            if (factorScaleArea < 0.2f)
+                factorScaleArea = 0.2f;
         }
         Vector3 newScale = cursorAreaIniScale * factorScaleArea;
         cursorArea.transform.localScale = newScale;
